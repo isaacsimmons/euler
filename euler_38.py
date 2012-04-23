@@ -34,7 +34,6 @@ def generateAll():
         pan = generatePandigital(i)
         if pan > largest:
             largest = pan
-            print("New largest: ", pan)
     return largest
 
 def main(argv):
