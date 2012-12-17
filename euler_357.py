@@ -56,20 +56,27 @@ def smallPrimeFactors(n):
         yield n
 
 
-primeCache = []
+primeCache = [1, 2]
 def loadPrimes(max):
-    root = math.ceil(math.sqrt(max))
-    for i in xrange(1, root):
+    for i in xrange(3, int(math.ceil(max))):
         if isPrime(i):
             primeCache.append(i)
 
 def isPrime(n):
+    root = math.floor(math.sqrt(n))
     if primeCache[-1] >= n:
         return contains(primeCache, n)
+    for i in xrange(1, len(primeCache)):
+        p = primeCache[i]
+        if p > root:
+            return True
+        if not n % p:
+            return False
+    return True
 
 def isSolution(n):
     for divisor in listSmallDivisors(n):
-        if not euler_381.isPrime(divisor + (n / divisor)):
+        if not isPrime(divisor + (n / divisor)):
             return False
     return True
 
@@ -90,8 +97,12 @@ def main(argv):
 #    print("========")
 #    print(list(smallPrimeFactors(n)))
 #    print(list(listSmallDivisors(n)))
+#    print(sum(generateSolutions(100000000)))
+
+
+    loadPrimes(math.sqrt(100000000))
+    print("Cached ", len(primeCache), " primes")
     print(sum(generateSolutions(100000000)))
-#    print(sum(generateSolutions(1000000)))
 #    print("RETURN ", list(generateSolutions(100000)))
 
 if __name__ == '__main__':
